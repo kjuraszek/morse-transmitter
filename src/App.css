@@ -1,0 +1,30 @@
+.App {
+  text-align: center;
+}
+body, html {
+	height: 100%;
+	}
+.board{
+	 width:100%;
+	 display:block;
+	 }
+.letter{
+	 font-family: 'Flavors', sans-serif;
+	 font-size:40px;
+	 }
+.message{
+	 font-family: 'Neucha', sans-serif;
+	 font-size:40px;
+	 }
+.message-box,.letter-box{
+	 min-height:80px;
+	 }
+.number-input input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.number-input input[type=number]::-webkit-inner-spin-button,
+.number-input input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+}
