@@ -4,7 +4,7 @@ This application helps you to practice transmitting messages with a Morse code s
 ## What is a Morse code ?
 According to Wikipedia:
 >
-> Morse code is a method used in telecommunication to encode text characters as standardized sequences of two different signal durations, called dots and dashes or dits and dahs. Morse code is named after Samuel Morse, an inventor of the telegraph.
+> *Morse code is a method used in telecommunication to encode text characters as standardized sequences of two different signal durations, called dots and dashes or dits and dahs. Morse code is named after Samuel Morse, an inventor of the telegraph.*
 >
 Read more [here](https://en.wikipedia.org/wiki/Morse_code) .
 
@@ -24,6 +24,6 @@ Running:
 builds the app for production to the `build` folder.
 
 ## How to use this app ?
-To begin click `Start transmission` button. Tap SPACEBAR key with certain durations and breaks (based on `Cheatsheet`) to create letters, words and sentences. To stop transmission click `Stop transmission` button. You can copy created message with `Copy message` button.
+To begin click `Start transmission` button. Tap SPACEBAR key with certain durations and breaks (based on `Cheatsheet`) to create letters, words and sentences. To stop transmission click `Stop transmission` button. You can copy created message with `Copy message` button. If you type unrecognizable sequence, it will be printed as `#` sign in your message.
 
 You can change the duration of a single unit in `Settings` area.

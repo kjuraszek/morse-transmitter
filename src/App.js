@@ -16,7 +16,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.defaultSettings = {
-			frequency: 100,
+			duration: 100,
 			extendedAlphabet: false
 		};
 		this.state = {
@@ -24,14 +24,14 @@ class App extends React.Component {
 		  settingsModal: false,
 		  helpModal: false,
 		  appSettings:{
-			frequency: this.defaultSettings.frequency,
+			duration: this.defaultSettings.duration,
 		  	extendedAlphabet: this.defaultSettings.extendedAlphabet
 		  },
-		  frequency: this.defaultSettings.frequency,
+		  duration: this.defaultSettings.duration,
 		  extendedAlphabet: this.defaultSettings.extendedAlphabet,
 		  errors:
 		  {
-			  frequency: ""
+			  duration: ""
 		  }
 		};
 		
@@ -47,16 +47,16 @@ class App extends React.Component {
 		let errors = this.state.errors;
 		 
 		if(isNaN(parseInt(value)) || value.length === 0 || parseInt(value) < 1){
-			errors.frequency = 'Value must be a positive number and cannot be empty!';
+			errors.duration = 'Value must be a positive number and cannot be empty!';
 		} else {
-			errors.frequency = '';
+			errors.duration = '';
 			value = parseInt(value);
 		}
 
-		this.setState({errors, frequency: value});
-		if(errors.frequency.length === 0){
+		this.setState({errors, duration: value});
+		if(errors.duration.length === 0){
 			let settings = this.state.appSettings;
-			settings.frequency = parseInt(value);
+			settings.duration = parseInt(value);
 			this.setState({appSettings: settings});
 		}
 	}
@@ -65,7 +65,7 @@ class App extends React.Component {
 	  this.setState({ navbarIsOpen: !this.state.navbarIsOpen });
 	}
 	toggleSettingsModal = () => {
-		if(this.state.settingsModal && this.state.errors.frequency.length > 0){
+		if(this.state.settingsModal && this.state.errors.duration.length > 0){
 			// reset all settings on close
 			this.restoreSettings();
 		}
@@ -75,23 +75,23 @@ class App extends React.Component {
 	}
 	resetSettings = () => {
 		this.setState({
-			frequency: this.defaultSettings.frequency,
+			duration: this.defaultSettings.duration,
 			extendedAlphabet: this.defaultSettings.extendedAlphabet,
 			appSettings:{
-				frequency: this.defaultSettings.frequency,
-				  extendedAlphabet: this.defaultSettings.extendedAlphabet
+				duration: this.defaultSettings.duration,
+				extendedAlphabet: this.defaultSettings.extendedAlphabet
 			  },
 			errors:{
-				frequency: ""
+				duration: ""
 			}
 		  });
 	}
 	restoreSettings = () => {
 		this.setState({
-			frequency: this.state.appSettings.frequency,
+			duration: this.state.appSettings.duration,
 			extendedAlphabet: this.state.appSettings.extendedAlphabet,
 			errors:{
-				frequency: ""
+				duration: ""
 			}
 		  });
 	}
@@ -127,7 +127,7 @@ class App extends React.Component {
           </Router>
         <main>
           <MDBContainer className="flex-center flex-column text-center">
-            <Transmitter frequency = {this.state.appSettings.frequency}/>
+            <Transmitter duration = {this.state.appSettings.duration}/>
 			</MDBContainer>
 		</main>
 		
@@ -170,13 +170,13 @@ class App extends React.Component {
 			</div>
 			  <MDBInput 
 			  type="text" 
-			  className="number-input  frequency" 
-			  name="frequency" 
-			  label="Frequency"
-			  value={this.state.frequency} 
+			  className="number-input  duration" 
+			  name="duration" 
+			  label="duration"
+			  value={this.state.duration} 
 			  onChange={this.handleNumberInput} />
-			  {this.state.errors.frequency.length > 0 && 
-                <span className='error deep-orange-text'>{this.state.errors.frequency}</span>}
+			  {this.state.errors.duration.length > 0 && 
+                <span className='error deep-orange-text'>{this.state.errors.duration}</span>}
 			  </div>
 			</MDBModalBody>
 			<MDBModalFooter>
@@ -188,9 +188,9 @@ class App extends React.Component {
 		  <MDBModal isOpen={this.state.helpModal} toggle={this.toggleHelpModal}>
 			<MDBModalHeader toggle={this.toggleHelpModal}>Help</MDBModalHeader>
 			<MDBModalBody>
-			  <p>This application helps you to practice transmitting messages with a Morse code signal. You can simulate transmission using SPACEBAR key on your keyboard (touch screens not supported yet) by tapping it with certain frequency.</p>
-			  <p>To begin click <strong>Start transmission</strong> button. Tap SPACEBAR key with certain durations and breaks (based on Cheatsheet) to create letters, words and sentences. To stop transmission click <strong>Stop transmission</strong> button. You can copy created message with <strong>Copy message</strong> button.</p>
-			  <p>Cheatsheet contains specific information about time delays between signals. Basic frequency can be adjusted via settings.</p>
+			  <p>This application helps you to practice transmitting messages with a Morse code signal. You can simulate transmission using SPACEBAR key on your keyboard (touch screens not supported yet) by tapping it with certain duration.</p>
+			  <p>To begin click <strong>Start transmission</strong> button. Tap SPACEBAR key with certain durations and breaks (based on Cheatsheet) to create letters, words and sentences. To stop transmission click <strong>Stop transmission</strong> button. You can copy created message with <strong>Copy message</strong> button. If you type unrecognizable sequence, it will be printed as <strong>#</strong> sign in your message.</p>
+			  <p>Cheatsheet contains specific information about time delays between signals. Basic duration can be adjusted via settings.</p>
 			  <p>For more informations you can visit: <a href="https://en.wikipedia.org/wiki/Morse_code" >https://en.wikipedia.org/wiki/Morse_code</a></p>
 			</MDBModalBody>
 			<MDBModalFooter>

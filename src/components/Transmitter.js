@@ -56,7 +56,7 @@ class Transmitter extends React.Component {
           word: [],
           message: ''
       };
-      this.freq = this.props.frequency;
+      this.duration = this.props.duration;
       this.mainDiv = null;
       this.handleKeyDown = this.handleKeyDown.bind(this); 
       this.handleKeyUp = this.handleKeyUp.bind(this); 
@@ -64,20 +64,20 @@ class Transmitter extends React.Component {
       this.copyMessage = this.copyMessage.bind(this); 
     }
     componentDidUpdate( ){
-        if(this.freq !== this.props.frequency){
-            this.freq = this.props.frequency;
+        if(this.duration !== this.props.duration){
+            this.duration = this.props.duration;
         }
     }
     handleKeyDown(e) {
-        console.log(this.freq);
+        console.log(this.duration);
         e.preventDefault();
         if(this.state.transmission && e.keyCode === 32 && !this.state.pressed){
             let time = this.state.lastKeyUp === 0 ? 0 : Date.now() - this.state.lastKeyUp;
             let temp_letter = this.state.letter;
             let temp_word = this.state.word;
             let temp_message = this.state.message;
-            if(time > this.freq){
-                  if(time < 3 * this.freq){
+            if(time > this.duration){
+                  if(time < 3 * this.duration){
                       temp_word.push(this.getLetter(temp_letter));
                       temp_letter = "";
                   } else {
@@ -103,12 +103,12 @@ class Transmitter extends React.Component {
             let time = this.state.lastKeyDown === 0 ? 0 : Date.now() - this.state.lastKeyDown;
             let symbol = '';
             if(time > 0){
-              if(time < this.freq){
+              if(time < this.duration){
                   symbol = "di";
-              } else if(time < 3 * this.freq){
+              } else if(time < 3 * this.duration){
                   symbol = "da";
-              }else {
-                  symbol = "??";
+              } else {
+                  symbol = "#";
               }
             }
             
