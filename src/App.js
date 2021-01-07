@@ -191,6 +191,9 @@ class App extends React.Component {
 			  <p>This application helps you to practice transmitting messages with a Morse code signal. You can simulate transmission using SPACEBAR key on your keyboard (touch screens not supported yet) by tapping it with certain duration.</p>
 			  <p>To begin click <strong>Start transmission</strong> button. Tap SPACEBAR key with certain durations and breaks (based on Cheatsheet) to create letters, words and sentences. To stop transmission click <strong>Stop transmission</strong> button. You can copy created message with <strong>Copy message</strong> button. If you type unrecognizable sequence, it will be printed as <strong>#</strong> sign in your message.</p>
 			  <p>Cheatsheet contains specific information about time delays between signals. Basic duration can be adjusted via settings.</p>
+			  <p>Between Transmitter and Cheatsheet are two Bulbs.</p>
+			  <p>The first one indicates in which part you are: a letter (<span class="green-text">green color</span>), a word (<span class="blue-text">blue color</span>) or a sentence (<span class="grey-text">grey color</span>).</p>
+			  <p>The second one indicates produced unit: a dot (<span class="green-text">green color</span>), a dash (<span class="blue-text">blue color</span>) or none (<span class="grey-text">grey color</span>).</p>
 			  <p>For more informations you can visit: <a href="https://en.wikipedia.org/wiki/Morse_code" >https://en.wikipedia.org/wiki/Morse_code</a></p>
 			</MDBModalBody>
 			<MDBModalFooter>

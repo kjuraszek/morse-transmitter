@@ -1,5 +1,5 @@
 import React from 'react';
-import { MDBBtn, MDBRow, MDBCol } from "mdbreact";
+import { MDBBtn, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import { toast } from 'react-toastify';
 import Cheatsheet from './Cheatsheet';
 
@@ -42,6 +42,15 @@ const ALPHABET = {
     "dadadadada" : "0"
 }
 
+const BULB_COLORS = {
+    "letter": "green-text",
+    "word": "blue-text",
+    "sentence": "grey-text",
+    "di": "green-text",
+    "da": "blue-text",
+    "none": "grey-text",   
+};
+
 class Transmitter extends React.Component {
     constructor(props) {
       super(props);
@@ -54,7 +63,10 @@ class Transmitter extends React.Component {
           pressed: false,
           letter: '',
           word: [],
-          message: ''
+          message: '',
+          interval: false,
+          currentPart: 'sentence',
+          currentUnit: 'none'
       };
       this.duration = this.props.duration;
       this.mainDiv = null;
@@ -62,6 +74,7 @@ class Transmitter extends React.Component {
       this.handleKeyUp = this.handleKeyUp.bind(this); 
       this.handleTransmission = this.handleTransmission.bind(this); 
       this.copyMessage = this.copyMessage.bind(this); 
+      this.checkCurrentPart = this.checkCurrentPart.bind(this); 
     }
     componentDidUpdate( ){
         if(this.duration !== this.props.duration){
@@ -69,7 +82,6 @@ class Transmitter extends React.Component {
         }
     }
     handleKeyDown(e) {
-        console.log(this.duration);
         e.preventDefault();
         if(this.state.transmission && e.keyCode === 32 && !this.state.pressed){
             let time = this.state.lastKeyUp === 0 ? 0 : Date.now() - this.state.lastKeyUp;
@@ -93,7 +105,8 @@ class Transmitter extends React.Component {
                   pressed: true,
                   letter: temp_letter,
                   word: temp_word,
-                  message: temp_message
+                  message: temp_message,
+                  currentPart: 'sentence'
                 });
         }  
     }
@@ -116,7 +129,8 @@ class Transmitter extends React.Component {
           timeKeyDown: time,
           lastKeyUp: Date.now(),
           letter: this.state.letter + symbol,
-          pressed: false
+          pressed: false,
+          currentUnit: 'none'
           });
         }
     }
@@ -126,12 +140,14 @@ class Transmitter extends React.Component {
               lastKeyDown: 0,
               lastKeyUp: 0,
               timeKeyDown: 0,
-              timeKeyUp: 0,
-              interval: false,			 
+              timeKeyUp: 0,			 
               transmission: !this.state.transmission,
               letter: '',
               word: [],
-              message: ''
+              message: '',
+              interval: setInterval(() => {
+                this.checkCurrentPart();
+              }, 1)
           });
           toast.info("Transmission started", {
               closeButton: false
@@ -144,12 +160,15 @@ class Transmitter extends React.Component {
             temp_message += temp_word.join("") + " ";
             temp_word = [];
             temp_letter = "";
-  
+            clearInterval(this.state.interval);
             this.setState({      
                   letter: temp_letter,
                   word: temp_word,
                   message: temp_message,
-                  transmission: !this.state.transmission
+                  transmission: !this.state.transmission,
+                  interval: false,
+                  currentPart: 'sentence',
+                  currentUnit: 'none'
                 });
               toast.info("Transmission stopped", {
               closeButton: false
@@ -186,6 +205,56 @@ class Transmitter extends React.Component {
             return '#';
         }
     }
+    checkCurrentPart(){
+        if(!this.state.pressed){
+            let difference = Date.now() - this.state.lastKeyUp;
+            let tempPart;
+            if(difference < this.duration ){
+                tempPart = "letter";
+            } else if(difference < this.duration * 3){
+                tempPart = "word";
+            } else {
+                tempPart = "sentence";
+                let temp_letter = this.state.letter;
+                let temp_word = this.state.word;
+                let temp_message = this.state.message;
+                temp_word.push(this.getLetter(temp_letter));
+                temp_message += temp_word.join("") + " ";
+                temp_word = [];
+                temp_letter = "";
+                this.setState({      
+                    letter: temp_letter,
+                    word: temp_word,
+                    message: temp_message,
+                    currentPart: 'sentence',
+                    currentUnit: 'none'
+                    });
+            } 
+            if(tempPart !== "sentence" && this.state.currentPart !== tempPart){
+                this.setState({
+                    currentPart: tempPart
+                    }
+                );
+            }
+        } else {
+            let pressingDuration = Date.now() - this.state.lastKeyDown;
+            let tempUnit;
+            if(pressingDuration < this.duration ){
+                tempUnit = "di";
+            } else if(pressingDuration < this.duration * 3){
+                tempUnit = "da";
+            } else {
+                tempUnit = "none";
+            } 
+            if(this.state.currentPart !== tempUnit){
+                this.setState({
+                    currentUnit: tempUnit
+                    }
+                );
+            }
+        }
+        
+    }
   render() {
     return (
   <React.Fragment>
@@ -216,12 +285,14 @@ class Transmitter extends React.Component {
                 Copy message
                 </MDBBtn>
             </div>
+            <MDBIcon far icon="lightbulb" size="5x" className={ `${BULB_COLORS[this.state.currentPart]} p-2 ` } />
+            <MDBIcon far icon="lightbulb" size="5x" className={ `${BULB_COLORS[this.state.currentUnit]} p-2 ` } />
             </MDBCol>
             <MDBCol size="12" md="6" className="mb-r d-flex align-items-start ">
                 <Cheatsheet />
             </MDBCol>
         </MDBRow>
-  
+        
     </React.Fragment>);
   }
   }
